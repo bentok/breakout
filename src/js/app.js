@@ -4,12 +4,12 @@
 	const canvas = document.getElementById('myCanvas'),
 				ctx = canvas.getContext('2d');
 			
+	// Ball settings
 	let x = canvas.width/2,
 			y = canvas.height-30,
 			dx = 2,
-			dy = -2;
-			
-	const ballRadius = 10;
+			dy = -2,
+			ballRadius = 10;
 			
 	animate();
 	

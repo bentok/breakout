@@ -6,12 +6,12 @@
 	var canvas = document.getElementById('myCanvas'),
 	    ctx = canvas.getContext('2d');
 
+	// Ball settings
 	var x = canvas.width / 2,
 	    y = canvas.height - 30,
 	    dx = 2,
-	    dy = -2;
-
-	var ballRadius = 10;
+	    dy = -2,
+	    ballRadius = 10;
 
 	animate();
 
