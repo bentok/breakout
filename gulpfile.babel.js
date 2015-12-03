@@ -4,18 +4,22 @@ var gulp  = require('gulp'),
     gutil = require('gulp-util'),
     jshint = require('gulp-jshint'),
     less = require('gulp-less'),
-    server = require('gulp-server-livereload')
-    eslint = require('gulp-eslint');
-
-gulp.task('default', ['lint'], function () {
-    // This will only run if the lint task is successful...
-});
+    server = require('gulp-server-livereload'),
+    eslint = require('gulp-eslint'),
+    babel = require("gulp-babel");
 
 gulp.task('default', ['watch', 'server']);
 
 gulp.task('watch', () => {
-  gulp.watch('src/**/*.js', ['lint'])
+  gulp.watch('src/**/*.js', ['lint']);
   gulp.watch('src/**/*.less', ['less']);
+  gulp.watch('src/js/app.js', ['transpile']);
+});
+
+gulp.task('transpile', () => {
+  return gulp.src('src/js/app.js')
+  .pipe(babel())
+  .pipe(gulp.dest('dist/js'));
 });
 
 gulp.task('less', () => {
