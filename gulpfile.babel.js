@@ -16,18 +16,22 @@ gulp.task('watch', () => {
   gulp.watch('src/js/app.js', ['transpile']);
 });
 
+// Task for transpiling es2015 to es6 with Babel
 gulp.task('transpile', () => {
   return gulp.src('src/js/app.js')
   .pipe(babel())
   .pipe(gulp.dest('dist/js'));
 });
 
+// Compile less
 gulp.task('less', () => {
   return gulp.src('src/**/*.less')
     .pipe(less())
     .pipe(gulp.dest('dist'));
 });
 
+
+// Serve and live reload at localhost:8000
 gulp.task('server', () => {
   gulp.src('')
     .pipe(server({
