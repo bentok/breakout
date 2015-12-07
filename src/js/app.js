@@ -24,10 +24,11 @@
 	animate();
 	
 	function draw() {
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.clearRect(0, 0, canvas.width, canvas.height); // Redraw ball on each frame
 		drawBall();
 		drawPaddle();
 		
+		// Reverse direction when ball hits a boundary
 		if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
 			dx = -dx;
 		}
@@ -35,6 +36,7 @@
 			dy = -dy;
 		}
 		
+		// Move paddle on keypress
 		if(rightPressed && paddleX < canvas.width-paddleWidth) {
 			paddleX += 7;
 		}
@@ -42,10 +44,12 @@
 			paddleX -= 7;
 		}
 		
+		// Ball motion
 		y += dy;
 		x += dx;
 	}
 	
+	// Canvas rendering of ball
 	function drawBall() {
 		ctx.beginPath();
 		ctx.arc(x, y, ballRadius, 0, Math.PI*2);
@@ -54,6 +58,7 @@
 		ctx.closePath();
 	}
 	
+	// Canvas rendering of paddle
 	function drawPaddle() {
 		ctx.beginPath();
     ctx.rect(paddleX, paddleY, paddleWidth, paddleHeight);
@@ -62,7 +67,7 @@
     ctx.closePath();
 	}
 	
-	
+	// Watch for keypress events to move paddle
 	document.addEventListener("keydown", keyDownHandler, false);
 	document.addEventListener("keyup", keyUpHandler, false);
 	
@@ -84,6 +89,7 @@
 		}
 	}
 	
+	// Animation loop
 	function animate() {
 		setInterval(draw, 10);
 	}
