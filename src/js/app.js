@@ -21,26 +21,48 @@
 	let rightPressed = false,
 			leftPressed = false;
 			
+	// Bricks
+	let brickRowCount = 3,
+			brickColumnCount = 5,
+			brickWidth = 75,
+			brickHeight = 20,
+			brickPadding = 10,
+			brickOffsetTop = 30,
+			brickOffsetLeft = 30,
+			bricks = [];
+			
 	animate();
+	generateBricks();
 	
 	function draw() {
 		ctx.clearRect(0, 0, canvas.width, canvas.height); // Redraw ball on each frame
 		drawBall();
 		drawPaddle();
+		drawBricks();
 		
 		// Reverse direction when ball hits a boundary
-		if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
+		if (x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
 			dx = -dx;
 		}
-		if(y + dy > canvas.height-ballRadius || y + dy < ballRadius) {
+		if (y + dy < ballRadius) {
 			dy = -dy;
+		} else if (y + dy > canvas.height-ballRadius) {
+			if (x > paddleX && x < paddleX + paddleWidth) {
+				dy = -dy;
+				// dx = dx * 1.05;  // speed up ball when it hits the paddle
+				// dy = dy * 1.05;  // speed up ball when it hits the paddle
+			}
+			else {
+				alert('GAME OVER');
+				document.location.reload();
+			}
 		}
 		
 		// Move paddle on keypress
-		if(rightPressed && paddleX < canvas.width-paddleWidth) {
+		if (rightPressed && paddleX < canvas.width-paddleWidth) {
 			paddleX += 7;
 		}
-		else if(leftPressed && paddleX > 0) {
+		else if (leftPressed && paddleX > 0) {
 			paddleX -= 7;
 		}
 		
@@ -67,9 +89,26 @@
     ctx.closePath();
 	}
 	
+	// Draw bricks 
+	function drawBricks() {
+		for (let i = 0; i < brickColumnCount; i++) {
+			for (let j = 0; j < brickRowCount; j++) {
+				let brickX = (i * (brickWidth+brickPadding)) + brickOffsetLeft;
+				let brickY = (j * (brickHeight+brickPadding)) + brickOffsetTop;
+				bricks[i][j].x = brickX;
+				bricks[i][j].y = brickY;
+				ctx.beginPath();
+				ctx.rect(brickX, brickY, brickWidth, brickHeight);
+				ctx.fillStyle = '#0095DD';
+				ctx.fill();
+				ctx.closePath();
+			}
+		}
+	}
+	
 	// Watch for keypress events to move paddle
-	document.addEventListener("keydown", keyDownHandler, false);
-	document.addEventListener("keyup", keyUpHandler, false);
+	document.addEventListener('keydown', keyDownHandler, false);
+	document.addEventListener('keyup', keyUpHandler, false);
 	
 	function keyDownHandler(e) {
 		if (e.keyCode == 39) {
@@ -79,7 +118,6 @@
 			leftPressed = true;
 		}
 	}
-	
 	function keyUpHandler(e) {
 		if (e.keyCode == 39) {
 			rightPressed = false;
@@ -92,6 +130,16 @@
 	// Animation loop
 	function animate() {
 		setInterval(draw, 10);
+	}
+	
+	// Fill bricks array according to rows and columns in the brick settings variables
+	function generateBricks() {
+		for (let i = 0; i < brickColumnCount; i++) {
+			bricks[i] = [];
+			for (let j = 0; j < brickRowCount; j++) {
+				bricks[i][j] = { x: 0, y: 0 };
+			}
+		}
 	}
 
 })();
