@@ -6,6 +6,9 @@
 	var canvas = document.getElementById('myCanvas'),
 	    ctx = canvas.getContext('2d');
 
+	// Global settings
+	var color = '#0095DD';
+
 	// Ball settings
 	var x = canvas.width / 2,
 	    y = canvas.height - 30,
@@ -80,7 +83,7 @@
 	function drawBall() {
 		ctx.beginPath();
 		ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-		ctx.fillStyle = '#0095DD';
+		ctx.fillStyle = color;
 		ctx.fill();
 		ctx.closePath();
 	}
@@ -89,7 +92,7 @@
 	function drawPaddle() {
 		ctx.beginPath();
 		ctx.rect(paddleX, paddleY, paddleWidth, paddleHeight);
-		ctx.fillStyle = '#0095DD';
+		ctx.fillStyle = color;
 		ctx.fill();
 		ctx.closePath();
 	}
@@ -106,7 +109,7 @@
 					bricks[i][j].y = brickY;
 					ctx.beginPath();
 					ctx.rect(brickX, brickY, brickWidth, brickHeight);
-					ctx.fillStyle = '#0095DD';
+					ctx.fillStyle = color;
 					ctx.fill();
 					ctx.closePath();
 				}
@@ -175,7 +178,7 @@
 	// Displaying the score
 	function drawScore() {
 		ctx.font = '16px Arial';
-		ctx.fillStyle = '#0095DD';
+		ctx.fillStyle = color;
 		ctx.fillText('Score: ' + score, 8, 20);
 	}
 })();
