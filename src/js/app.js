@@ -2,28 +2,23 @@
 	'use strict';
 
 	const canvas = document.getElementById('myCanvas'),
-				ctx = canvas.getContext('2d');
-				
+				ctx = canvas.getContext('2d');	
 	// Global settings
 	let color = '#0095DD';
-			
 	// Ball settings
 	let x = canvas.width/2,
 			y = canvas.height-30,
 			dx = 2,
 			dy = -2,
-			ballRadius = 10;
-			
+			ballRadius = 10;	
 	// Paddle settings
 	let paddleHeight = 10,
 			paddleWidth = 75,
 			paddleX = (canvas.width - paddleWidth)/2,
 			paddleY = canvas.height - paddleHeight;
-			
 	// Control settings
 	let rightPressed = false,
 			leftPressed = false;
-			
 	// Brick settings
 	let brickRowCount = 3,
 			brickColumnCount = 5,
@@ -33,13 +28,12 @@
 			brickOffsetTop = 30,
 			brickOffsetLeft = 30,
 			bricks = [];
-			
 	// Score settings
 	let score = 0;
 	
-			
-	animate();
+	// Draw bricks and animate
 	generateBricks();
+	draw();
 	
 	function draw() {
 		ctx.clearRect(0, 0, canvas.width, canvas.height); // Redraw ball on each frame
@@ -78,6 +72,9 @@
 		// Ball motion
 		y += dy;
 		x += dx;
+		
+		// Animation loop
+		requestAnimationFrame(draw);
 	}
 	
 	// Canvas rendering of ball
@@ -137,11 +134,6 @@
 		else if (e.keyCode == 37) {
 			leftPressed = false;
 		}
-	}
-	
-	// Animation loop
-	function animate() {
-		setInterval(draw, 10);
 	}
 	
 	// Fill bricks array according to rows and columns in the brick settings variables
