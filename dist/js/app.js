@@ -5,22 +5,27 @@
 
 	var canvas = document.getElementById('myCanvas'),
 	    ctx = canvas.getContext('2d');
+
 	// Global settings
 	var color = '#0095DD';
+
 	// Ball settings
 	var x = canvas.width / 2,
 	    y = canvas.height - 30,
-	    dx = 2,
-	    dy = -2,
+	    dx = 3,
+	    dy = -3,
 	    ballRadius = 10;
+
 	// Paddle settings
 	var paddleHeight = 10,
 	    paddleWidth = 75,
 	    paddleX = (canvas.width - paddleWidth) / 2,
 	    paddleY = canvas.height - paddleHeight;
+
 	// Control settings
 	var rightPressed = false,
 	    leftPressed = false;
+
 	// Brick settings
 	var brickRowCount = 3,
 	    brickColumnCount = 5,
@@ -30,6 +35,7 @@
 	    brickOffsetTop = 30,
 	    brickOffsetLeft = 30,
 	    bricks = [];
+
 	// Score settings
 	var score = 0;
 
@@ -118,6 +124,7 @@
 	// Watch for keypress events to move paddle
 	document.addEventListener('keydown', keyDownHandler, false);
 	document.addEventListener('keyup', keyUpHandler, false);
+	document.addEventListener("mousemove", mouseMoveHandler, false);
 
 	function keyDownHandler(e) {
 		if (e.keyCode == 39) {
@@ -131,6 +138,12 @@
 			rightPressed = false;
 		} else if (e.keyCode == 37) {
 			leftPressed = false;
+		}
+	}
+	function mouseMoveHandler(e) {
+		var relativeX = e.clientX - canvas.offsetLeft;
+		if (relativeX > 0 && relativeX < canvas.width) {
+			paddleX = relativeX - paddleWidth / 2;
 		}
 	}
 

@@ -2,23 +2,28 @@
 	'use strict';
 
 	const canvas = document.getElementById('myCanvas'),
-				ctx = canvas.getContext('2d');	
+				ctx = canvas.getContext('2d');
+					
 	// Global settings
 	let color = '#0095DD';
+	
 	// Ball settings
 	let x = canvas.width/2,
 			y = canvas.height-30,
-			dx = 2,
-			dy = -2,
-			ballRadius = 10;	
+			dx = 3,
+			dy = -3,
+			ballRadius = 10;
+				
 	// Paddle settings
 	let paddleHeight = 10,
 			paddleWidth = 75,
 			paddleX = (canvas.width - paddleWidth)/2,
 			paddleY = canvas.height - paddleHeight;
+			
 	// Control settings
 	let rightPressed = false,
 			leftPressed = false;
+			
 	// Brick settings
 	let brickRowCount = 3,
 			brickColumnCount = 5,
@@ -28,6 +33,7 @@
 			brickOffsetTop = 30,
 			brickOffsetLeft = 30,
 			bricks = [];
+			
 	// Score settings
 	let score = 0;
 	
@@ -49,7 +55,7 @@
 		}
 		if (y + dy < ballRadius) {
 			dy = -dy;
-		} else if (y + dy > canvas.height-ballRadius) {
+		} else if (y + dy > canvas.height - ballRadius) {
 			if (x > paddleX && x < paddleX + paddleWidth) {
 				dy = -dy;
 				// dx = dx * 1.05;  // speed up ball when it hits the paddle
@@ -118,6 +124,7 @@
 	// Watch for keypress events to move paddle
 	document.addEventListener('keydown', keyDownHandler, false);
 	document.addEventListener('keyup', keyUpHandler, false);
+	document.addEventListener("mousemove", mouseMoveHandler, false);
 	
 	function keyDownHandler(e) {
 		if (e.keyCode == 39) {
@@ -133,6 +140,12 @@
 		}
 		else if (e.keyCode == 37) {
 			leftPressed = false;
+		}
+	}
+	function mouseMoveHandler(e) {
+		var relativeX = e.clientX - canvas.offsetLeft;
+		if (relativeX > 0 && relativeX < canvas.width) {
+			paddleX = relativeX - paddleWidth / 2;
 		}
 	}
 	
