@@ -21,7 +21,7 @@
 	let rightPressed = false,
 			leftPressed = false;
 			
-	// Bricks
+	// Brick settings
 	let brickRowCount = 3,
 			brickColumnCount = 5,
 			brickWidth = 75,
@@ -31,6 +31,10 @@
 			brickOffsetLeft = 30,
 			bricks = [];
 			
+	// Score settings
+	let score = 0;
+	
+			
 	animate();
 	generateBricks();
 	
@@ -39,6 +43,8 @@
 		drawBall();
 		drawPaddle();
 		drawBricks();
+		collisionDetection();
+		drawScore();
 		
 		// Reverse direction when ball hits a boundary
 		if (x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
@@ -93,15 +99,18 @@
 	function drawBricks() {
 		for (let i = 0; i < brickColumnCount; i++) {
 			for (let j = 0; j < brickRowCount; j++) {
-				let brickX = (i * (brickWidth+brickPadding)) + brickOffsetLeft;
-				let brickY = (j * (brickHeight+brickPadding)) + brickOffsetTop;
-				bricks[i][j].x = brickX;
-				bricks[i][j].y = brickY;
-				ctx.beginPath();
-				ctx.rect(brickX, brickY, brickWidth, brickHeight);
-				ctx.fillStyle = '#0095DD';
-				ctx.fill();
-				ctx.closePath();
+				// Only draw bricks if they have not been touched as indicated by "status"
+				if (bricks[i][j].status === 1) {
+					let brickX = (i * (brickWidth+brickPadding)) + brickOffsetLeft;
+					let brickY = (j * (brickHeight+brickPadding)) + brickOffsetTop;
+					bricks[i][j].x = brickX;
+					bricks[i][j].y = brickY;
+					ctx.beginPath();
+					ctx.rect(brickX, brickY, brickWidth, brickHeight);
+					ctx.fillStyle = '#0095DD';
+					ctx.fill();
+					ctx.closePath();
+				}
 			}
 		}
 	}
@@ -137,9 +146,40 @@
 		for (let i = 0; i < brickColumnCount; i++) {
 			bricks[i] = [];
 			for (let j = 0; j < brickRowCount; j++) {
-				bricks[i][j] = { x: 0, y: 0 };
+				bricks[i][j] = { 
+					x: 0, 
+					y: 0, 
+					status: 1
+				};
 			}
 		}
+	}
+	
+	// Collision detection
+	function collisionDetection() {
+		for (let i = 0; i < brickColumnCount; i++) {
+			for (let j = 0; j < brickRowCount; j++) {
+				var brick = bricks[i][j];
+				if (brick.status === 1) {
+					if (x > brick.x && x < brick.x + brickWidth && y > brick.y && y < brick.y + brickHeight) {
+						dy = -dy; // Reverse direction
+						brick.status = 0; // Remove brick
+						score++;
+						if(score == brickRowCount*brickColumnCount) {
+							alert('YOU WIN, CONGRATULATIONS!');
+							document.location.reload();
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	// Displaying the score
+	function drawScore() {
+		ctx.font = '16px Arial';
+		ctx.fillStyle = '#0095DD';
+		ctx.fillText('Score: ' + score, 8, 20);
 	}
 
 })();
