@@ -39,6 +39,9 @@
 	// Score settings
 	var score = 0;
 
+	// Player Options
+	var hardMode = true;
+
 	// Draw bricks and animate
 	generateBricks();
 	draw();
@@ -60,8 +63,10 @@
 		} else if (y + dy > canvas.height - ballRadius) {
 			if (x > paddleX && x < paddleX + paddleWidth) {
 				dy = -dy;
-				// dx = dx * 1.05;  // speed up ball when it hits the paddle
-				// dy = dy * 1.05;  // speed up ball when it hits the paddle
+				if (hardMode) {
+					dx = dx * 1.05; // speed up ball when it hits the paddle
+					dy = dy * 1.05; // speed up ball when it hits the paddle
+				}
 			} else {
 					alert('GAME OVER');
 					document.location.reload();
