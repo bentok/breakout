@@ -3,15 +3,15 @@
 (function () {
 	'use strict';
 
-	var canvas = document.getElementById('myCanvas'),
-	    ctx = canvas.getContext('2d');
+	var CANVAS = document.getElementById('myCanvas'),
+	    CTX = CANVAS.getContext('2d');
 
 	// Global settings
 	var color = '#0095DD';
 
 	// Ball settings
-	var x = canvas.width / 2,
-	    y = canvas.height - 30,
+	var x = CANVAS.width / 2,
+	    y = CANVAS.height - 30,
 	    dx = 3,
 	    dy = -3,
 	    ballRadius = 10;
@@ -19,8 +19,8 @@
 	// Paddle settings
 	var paddleHeight = 10,
 	    paddleWidth = 75,
-	    paddleX = (canvas.width - paddleWidth) / 2,
-	    paddleY = canvas.height - paddleHeight;
+	    paddleX = (CANVAS.width - paddleWidth) / 2,
+	    paddleY = CANVAS.height - paddleHeight;
 
 	// Control settings
 	var rightPressed = false,
@@ -47,7 +47,7 @@
 	draw();
 
 	function draw() {
-		ctx.clearRect(0, 0, canvas.width, canvas.height); // Redraw ball on each frame
+		CTX.clearRect(0, 0, CANVAS.width, CANVAS.height); // Redraw ball on each frame
 		drawBall();
 		drawPaddle();
 		drawBricks();
@@ -55,12 +55,12 @@
 		drawScore();
 
 		// Reverse direction when ball hits a boundary
-		if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
+		if (x + dx > CANVAS.width - ballRadius || x + dx < ballRadius) {
 			dx = -dx;
 		}
 		if (y + dy < ballRadius) {
 			dy = -dy;
-		} else if (y + dy > canvas.height - ballRadius) {
+		} else if (y + dy > CANVAS.height - ballRadius) {
 			if (x > paddleX && x < paddleX + paddleWidth) {
 				dy = -dy;
 				if (hardMode) {
@@ -74,7 +74,7 @@
 		}
 
 		// Move paddle on keypress
-		if (rightPressed && paddleX < canvas.width - paddleWidth) {
+		if (rightPressed && paddleX < CANVAS.width - paddleWidth) {
 			paddleX += 7;
 		} else if (leftPressed && paddleX > 0) {
 			paddleX -= 7;
@@ -90,20 +90,20 @@
 
 	// Canvas rendering of ball
 	function drawBall() {
-		ctx.beginPath();
-		ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-		ctx.fillStyle = color;
-		ctx.fill();
-		ctx.closePath();
+		CTX.beginPath();
+		CTX.arc(x, y, ballRadius, 0, Math.PI * 2);
+		CTX.fillStyle = color;
+		CTX.fill();
+		CTX.closePath();
 	}
 
 	// Canvas rendering of paddle
 	function drawPaddle() {
-		ctx.beginPath();
-		ctx.rect(paddleX, paddleY, paddleWidth, paddleHeight);
-		ctx.fillStyle = color;
-		ctx.fill();
-		ctx.closePath();
+		CTX.beginPath();
+		CTX.rect(paddleX, paddleY, paddleWidth, paddleHeight);
+		CTX.fillStyle = color;
+		CTX.fill();
+		CTX.closePath();
 	}
 
 	// Draw bricks
@@ -116,11 +116,11 @@
 					var brickY = j * (brickHeight + brickPadding) + brickOffsetTop;
 					bricks[i][j].x = brickX;
 					bricks[i][j].y = brickY;
-					ctx.beginPath();
-					ctx.rect(brickX, brickY, brickWidth, brickHeight);
-					ctx.fillStyle = color;
-					ctx.fill();
-					ctx.closePath();
+					CTX.beginPath();
+					CTX.rect(brickX, brickY, brickWidth, brickHeight);
+					CTX.fillStyle = color;
+					CTX.fill();
+					CTX.closePath();
 				}
 			}
 		}
@@ -146,8 +146,8 @@
 		}
 	}
 	function mouseMoveHandler(e) {
-		var relativeX = e.clientX - canvas.offsetLeft;
-		if (relativeX > 0 && relativeX < canvas.width) {
+		var relativeX = e.clientX - CANVAS.offsetLeft;
+		if (relativeX > 0 && relativeX < CANVAS.width) {
 			paddleX = relativeX - paddleWidth / 2;
 		}
 	}
@@ -188,8 +188,8 @@
 
 	// Displaying the score
 	function drawScore() {
-		ctx.font = '16px Arial';
-		ctx.fillStyle = color;
-		ctx.fillText('Score: ' + score, 8, 20);
+		CTX.font = '16px Arial';
+		CTX.fillStyle = color;
+		CTX.fillText('Score: ' + score, 8, 20);
 	}
 })();
